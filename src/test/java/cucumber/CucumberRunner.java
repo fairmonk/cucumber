@@ -9,11 +9,11 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @Cucumber.Options(
-        format = {"pretty"},
+        format = {"pretty","html:target/cucumber-html-report"},
         features = {"src\\test\\java\\cucumber\\features\\"},
-        glue = { "src\\test\\java\\cucumber\\stepdef" }
+        glue = { "cucumber.stepdef" }
 )
-public class CucumberRunnerIT {
+public class CucumberRunner {
 
 
 }
