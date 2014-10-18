@@ -64,20 +64,20 @@ public class AddItemsStepDefs {
     	driver.findElement(By.xpath("//a[@id='aBagLink']")).click();
 	}
 
-	@When("^I increase quantity for the first item by a two$")
-	public void i_increase_quantity_for_the_first_item_by_a_two() throws Throwable {
+	@When("^I increase quantity for the first item by one$")
+	public void shouldIncreaseQuantityByOne() throws Throwable {
 		driver.findElement(By.xpath("//img[@alt='Add one item']")).click();	
 	   
 	}
 
 	@When("^I press Update Bag$")
-	public void i_press_Update_Bag() throws Throwable {
+	public void shouldUpdateTotalItemsCount() throws Throwable {
 		driver.findElement(By.xpath("//a[text()='Update bag']")).click();
 		Thread.sleep(3000);
 	}
 
 	@Then("^I should have an updated number of items$")
-	public void i_should_have_an_updated_number_of_items() throws Throwable {
+	public void checkThatTotalItemsNumberUpdated() throws Throwable {
 		WebElement bagQuantity= driver.findElement(By.xpath("//span[@id='bagQuantity']"));
     	String quantity = bagQuantity.getText();
     	int bagValue = Integer.parseInt(quantity);
