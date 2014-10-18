@@ -8,6 +8,6 @@ Feature: To test putting products in bag and count their number
 
   Scenario: User goes into bag and adds another instance of a product
     Given I navigate to bag
-    When I increase quantity for the first item by a one
+    When I increase quantity for the first item by one
     And I press Update Bag
     Then I should have an updated number of items
