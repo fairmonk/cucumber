@@ -1,0 +1,104 @@
+[
+  {
+    "id": "to-test-putting-products-in-bag-and-count-their-number",
+    "description": "",
+    "name": "To test putting products in bag and count their number",
+    "keyword": "Feature",
+    "line": 1,
+    "elements": [
+      {
+        "id": "to-test-putting-products-in-bag-and-count-their-number;user-chooses-two-products-and-put-them-in-bag",
+        "description": "",
+        "name": "User chooses two products and put them in bag",
+        "keyword": "Scenario",
+        "line": 3,
+        "steps": [
+          {
+            "result": {
+              "status": "undefined"
+            },
+            "name": "I navigated to sportsdirect site",
+            "keyword": "Given ",
+            "line": 4,
+            "match": {}
+          },
+          {
+            "result": {
+              "status": "undefined"
+            },
+            "name": "I add Slazenger Hooded Jacket Junior",
+            "keyword": "When ",
+            "line": 5,
+            "match": {}
+          },
+          {
+            "result": {
+              "status": "undefined"
+            },
+            "name": "I add No Fear Classic Jacket Junior",
+            "keyword": "And ",
+            "line": 6,
+            "match": {}
+          },
+          {
+            "result": {
+              "status": "undefined"
+            },
+            "name": "I should have two items in my basket",
+            "keyword": "Then ",
+            "line": 7,
+            "match": {}
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "id": "to-test-putting-products-in-bag-and-count-their-number;user-goes-into-bag-and-adds-a-few-instances-o-product",
+        "description": "",
+        "name": "User goes into bag and adds a few instances o product",
+        "keyword": "Scenario",
+        "line": 9,
+        "steps": [
+          {
+            "result": {
+              "status": "undefined"
+            },
+            "name": "I navigate to bag",
+            "keyword": "Given ",
+            "line": 10,
+            "match": {}
+          },
+          {
+            "result": {
+              "status": "undefined"
+            },
+            "name": "I increase quantity for the first item by a two",
+            "keyword": "When ",
+            "line": 11,
+            "match": {}
+          },
+          {
+            "result": {
+              "status": "undefined"
+            },
+            "name": "I press Update Bag",
+            "keyword": "And ",
+            "line": 12,
+            "match": {}
+          },
+          {
+            "result": {
+              "status": "undefined"
+            },
+            "name": "I should have an updated number of items",
+            "keyword": "Then ",
+            "line": 13,
+            "match": {}
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "uri": "additems.feature"
+  }
+]
