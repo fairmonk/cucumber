@@ -1,13 +1,15 @@
 Feature: To test putting products in bag and count their number
 
   Scenario: User chooses two products and puts them in bag
-    Given I navigated to sportsdirect site
-    When I add Slazenger Hooded Jacket Junior
-    And I add No Fear Classic Jacket Junior
-    Then I should have two items in my basket
+    Given I'm on the sportsdirect site
+    When I navigate to "mega deals" page
+    And I add item "Item1"
+    And I navigate to "back" page
+    And I add item "Item2"
+    Then I should have "two" items in my bag
 
   Scenario: User goes into bag and adds another instance of a product
-    Given I navigate to bag
-    When I increase quantity for the first item by one
-    And I press Update Bag
-    Then I should have an updated number of items
+    Given I navigate to "my bag" page
+    When I increase quantity for item by "1"
+    And I press "Update Bag"
+    Then I should have "four" items in my bag
