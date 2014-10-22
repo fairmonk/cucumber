@@ -1,5 +1,7 @@
 package cucumber.stepdef;
 
+import cucumber.api.PendingException;
+import cucumber.stepdef.helpers.XpathLocator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -8,11 +10,11 @@ import org.openqa.selenium.support.ui.Select;
 //import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.Assert.assertEquals;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by misha on 10/16/2014.
@@ -20,70 +22,104 @@ import cucumber.api.java.en.When;
 public class AddItemsStepDefs {
 	
 	public static WebDriver driver;
-	
 
-    @Given("^I navigated to sportsdirect site$")
-    public void shouldNavigateToSportsdirect() throws Throwable {
+    @Given("^I'm on the sportsdirect site$")
+    public void shouldNavigateToHomePage()
+    {
         driver = new FirefoxDriver();
-        driver.navigate().to("http://www.sportsdirect.com/mega-deal");
-    }    
-
-    @When("^I add Slazenger Hooded Jacket Junior$")
-    public void shouldAddSlazengerHoodedJacketJuniorItem() throws Throwable {
-    	driver.findElement(By.xpath("//img[@alt='Slazenger Hooded Jacket Junior']")).click();
-    	Select select = new Select(driver.findElement(By.xpath("//div/select[@id='sizeDdl']")));
-    	select.selectByVisibleText("7-8 (SB)");
-    	driver.findElement(By.xpath("//a[@id='aAddToBag']")).click();
-    	Thread.sleep(7000);
+        driver.navigate().to("http://www.sportsdirect.com");
     }
 
-    @When("^I add No Fear Classic Jacket Junior$")
-    public void shoulAddNoFearClassicJacketJuniorItem() throws Throwable {
-    	driver.navigate().back();
-//    	driver.navigate().to("http://www.sportsdirect.com/mega-deal");
-    	Thread.sleep(7000);
-    	driver.findElement(By.xpath("//img[@alt='adidas Mid Season Jacket Junior Boys ']")).click();
-    	Select select = new Select(driver.findElement(By.xpath("//div/select[@id='sizeDdl']")));
-    	select.selectByVisibleText("7-8 (SB)");
-    	driver.findElement(By.xpath("//a[@id='aAddToBag']")).click();
-    	Thread.sleep(7000);   	
+    @When("^I navigate to \"(.*?)\" page$")
+    public void shouldNavigateToPageOnClickEvent(String pageName) throws InterruptedException {
+        if (pageName.equals("back")) {
+            driver.navigate().back();
+            Thread.sleep(3000);
+        }
+        else{
+            getMyWebElement(pageName).click();
+            Thread.sleep(3000);
+        }
     }
 
-    @Then("^I should have two items in my basket$")
-    public void checkOnItemsInBasket() throws Throwable {
-    	WebElement bagQuantity= driver.findElement(By.xpath("//span[@id='bagQuantity']"));
-    	String quantity = bagQuantity.getText();
+    @When("^I add item \"(.*?)\"$")
+    public void shouldFindElementAndAddToBag(String link) throws Throwable {
+        getMyWebElement(link).click();
+        Thread.sleep(3000);
+        setSize('s');
+        driver.findElement(By.xpath(XpathLocator.addToBag)).click();
+        Thread.sleep(5000);
+    }
+
+
+
+    @Then("^I should have \"(.*?)\" items in my bag$")
+    public void checkNumberOfItemsInBag(String amount) throws Throwable {
+    	String quantity = getMyWebElement(amount).getText();
+        int quantityInt = Integer.parseInt(quantity);
     	int bagValue = Integer.parseInt(quantity);
-    	
-    	assertEquals("Expected to have exactly two items in bag! but didn't ", 2, bagValue);
-//    	driver.quit();
+
+    	assertEquals("Expected to have exactly" + amount + " items in my bag! but failed ", quantityInt, bagValue);
+
+        if(bagValue == 4){
+            driver.quit();
+        }
     }
-    
-    @Given("^I navigate to bag$")
-	public void shouldNavigateToCart() throws Throwable {
-    	driver.findElement(By.xpath("//a[@id='aBagLink']")).click();
-	}
 
-	@When("^I increase quantity for the first item by one$")
-	public void shouldIncreaseQuantityByOne() throws Throwable {
-		driver.findElement(By.xpath("//img[@alt='Add one item']")).click();	
-	   
-	}
+    @When("^I increase quantity for item by \"(.*?)\"$")
+    public void shouldClickANumberOfTimes(String number) throws Throwable {
+        int n = Integer.parseInt(number);
 
-	@When("^I press Update Bag$")
-	public void shouldUpdateTotalItemsCount() throws Throwable {
-		driver.findElement(By.xpath("//a[text()='Update bag']")).click();
+        for (int i=0; i<n; i++){
+            getMyWebElement(number).click();
+        }
+    }
+
+    @When("^I press \"(.*?)\"$")
+	public void shouldClickOnElement(String element) throws Throwable {
+		getMyWebElement(element).click();
 		Thread.sleep(3000);
 	}
 
-	@Then("^I should have an updated number of items$")
-	public void checkThatTotalItemsNumberUpdated() throws Throwable {
-		WebElement bagQuantity= driver.findElement(By.xpath("//span[@id='bagQuantity']"));
-    	String quantity = bagQuantity.getText();
-    	int bagValue = Integer.parseInt(quantity);
-    	
-    	assertEquals("Expected to have exactly two items in bag! but didn't ", 4, bagValue); //it's 4 because website adds another item by default -> a magazine
-    	driver.quit();
-	    
-	}
+
+    private WebElement getMyWebElement(String link)
+    {
+        XpathLocator locator = new XpathLocator();
+        WebElement webElement = null;
+
+        if (link.equals("mega deals")){
+            webElement = driver.findElement(By.xpath(locator.megadeals));
+        }
+        else if(link.equals("my bag")) {
+            webElement = driver.findElement(By.xpath(locator.mybag));
+        }
+        else if (link.equals("Item1")){
+            webElement = driver.findElement(By.xpath(locator.item1));
+        }
+        else if (link.equals("Item2")){
+            webElement = driver.findElement(By.xpath(locator.item2));
+        }
+        else if (link.equals("two") || link.equals("four")){
+            webElement = driver.findElement(By.xpath(locator.quantity));
+        }
+        else if (link.equals("1")){
+            webElement = driver.findElement(By.xpath(locator.number));
+        }
+        else if (link.equals("1") || link.equals("Update Bag")){
+            webElement = driver.findElement(By.xpath(locator.updateBag));
+        }
+
+        return webElement;
+    }
+
+    private void setSize(char size)
+    {
+        switch (size){
+            case 's':
+                Select select = new Select(driver.findElement(By.xpath(XpathLocator.sizeDropDown)));
+                select.selectByVisibleText(XpathLocator.sizeElementText);
+                break;
+        }
+    }
+
 }
