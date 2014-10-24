@@ -1,6 +1,8 @@
 package cucumber.stepdef;
 
 import cucumber.api.PendingException;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.stepdef.helpers.XpathLocator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -23,10 +25,20 @@ public class AddItemsStepDefs {
 	
 	public static WebDriver driver;
 
+    @Before("@driverSetUp")
+    public void testSetUp(){
+        driver = new FirefoxDriver();
+    }
+
+    @After("@driverQuit")
+    public void testShutDown(){
+        driver.quit();
+    }
+
     @Given("^I'm on the sportsdirect site$")
     public void shouldNavigateToHomePage()
     {
-        driver = new FirefoxDriver();
+
         driver.navigate().to("http://www.sportsdirect.com");
     }
 
@@ -61,9 +73,6 @@ public class AddItemsStepDefs {
 
     	assertEquals("Expected to have exactly" + amount + " items in my bag! but failed ", quantityInt, bagValue);
 
-        if(bagValue == 4){
-            driver.quit();
-        }
     }
 
     @When("^I increase quantity for item by \"(.*?)\"$")
