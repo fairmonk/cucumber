@@ -19,10 +19,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class CommonPageStepDefinitions extends AbstractPageStepDefinition{
 
-//    @Before("@driverSetUp")
-//    public void testSetUp(){
-//        driver = new FirefoxDriver();
-//    }
     WebDriver driver = getDriver();
 
     @After("@driverQuit")
@@ -53,35 +49,4 @@ public class CommonPageStepDefinitions extends AbstractPageStepDefinition{
 		getMyWebElement(element).click();
 		Thread.sleep(3000);
 	}
-
-
-    private WebElement getMyWebElement(String link)
-    {
-        XpathLocator locator = new XpathLocator();
-        WebElement webElement = null;
-
-        if (link.equals("mega deals")){
-            webElement = driver.findElement(By.xpath(locator.megadeals));
-        }
-        else if(link.equals("my bag")) {
-            webElement = driver.findElement(By.xpath(locator.mybag));
-        }
-        else if (link.equals("Item1")){
-            webElement = driver.findElement(By.xpath(locator.item1));
-        }
-        else if (link.equals("Item2")){
-            webElement = driver.findElement(By.xpath(locator.item2));
-        }
-        else if (link.equals("two") || link.equals("four")){
-            webElement = driver.findElement(By.xpath(locator.quantity));
-        }
-        else if (link.equals("1")){
-            webElement = driver.findElement(By.xpath(locator.number));
-        }
-        else if (link.equals("1") || link.equals("Update Bag")){
-            webElement = driver.findElement(By.xpath(locator.updateBag));
-        }
-
-        return webElement;
-    }
 }
