@@ -1,18 +1,11 @@
 package cucumber.stepdef;
 
-import cucumber.api.PendingException;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.stepdef.helpers.XpathLocator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
-//import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.WebElement;
 
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -21,38 +14,9 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by misha on 10/16/2014.
  */
-public class AddItemsStepDefs {
-	
-	public static WebDriver driver;
+public class AddItemsStepDefinition extends AbstractPageStepDefinition{
 
-    @Before("@driverSetUp")
-    public void testSetUp(){
-        driver = new FirefoxDriver();
-    }
-
-    @After("@driverQuit")
-    public void testShutDown(){
-        driver.quit();
-    }
-
-    @Given("^I'm on the sportsdirect site$")
-    public void shouldNavigateToHomePage()
-    {
-
-        driver.navigate().to("http://www.sportsdirect.com");
-    }
-
-    @When("^I navigate to \"(.*?)\" page$")
-    public void shouldNavigateToPageOnClickEvent(String pageName) throws InterruptedException {
-        if (pageName.equals("back")) {
-            driver.navigate().back();
-            Thread.sleep(3000);
-        }
-        else{
-            getMyWebElement(pageName).click();
-            Thread.sleep(3000);
-        }
-    }
+    WebDriver driver = getDriver();
 
     @When("^I add item \"(.*?)\"$")
     public void shouldFindElementAndAddToBag(String link) throws Throwable {
@@ -62,8 +26,6 @@ public class AddItemsStepDefs {
         driver.findElement(By.xpath(XpathLocator.addToBag)).click();
         Thread.sleep(5000);
     }
-
-
 
     @Then("^I should have \"(.*?)\" items in my bag$")
     public void checkNumberOfItemsInBag(String amount) throws Throwable {
@@ -83,13 +45,6 @@ public class AddItemsStepDefs {
             getMyWebElement(number).click();
         }
     }
-
-    @When("^I press \"(.*?)\"$")
-	public void shouldClickOnElement(String element) throws Throwable {
-		getMyWebElement(element).click();
-		Thread.sleep(3000);
-	}
-
 
     private WebElement getMyWebElement(String link)
     {

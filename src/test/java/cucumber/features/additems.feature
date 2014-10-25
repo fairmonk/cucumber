@@ -1,9 +1,10 @@
 Feature: To test putting products in bag and count their number
 
-  @driverSetUp
-  Scenario: User chooses two products and puts them in bag
+  Background:
     Given I'm on the sportsdirect site
     When I navigate to "mega deals" page
+
+  Scenario: User chooses two products and puts them in bag
     And I add item "Item1"
     And I navigate to "back" page
     And I add item "Item2"
